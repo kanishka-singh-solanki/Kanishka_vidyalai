@@ -38,6 +38,22 @@ async function fetchAlbum(postId) {
     // ... rest of the code
   }
 }
-module.exports = { fetchPosts, fetchAlbum };
+// module.exports = { fetchPosts, fetchAlbum };
 
 // Task2
+
+// Task5
+
+async function fetchUserData(userId) {
+  try {
+    return (await axios.get(
+      `https://jsonplaceholder.typicode.com/users/${userId}`,
+    )).data;
+  } catch (error) {
+    // ... rest of the code
+  }
+}
+
+module.exports = { fetchPosts, fetchAlbum, fetchUserData };
+
+// Task5

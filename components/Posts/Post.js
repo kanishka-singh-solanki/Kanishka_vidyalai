@@ -67,6 +67,44 @@ const NextButton = styled(Button)`
   right: 10px;
 `;
 
+// Task5
+const HeadingContainer = styled.div(() => ({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+}));
+
+const DataContainer = styled.div(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  margin: '2%',
+}));
+
+const IconContainer = styled.div(() => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '60px',
+  height: '60px',
+  backgroundColor: 'grey',
+  borderRadius: '50%',
+  color: 'white',
+  fontSize: '25px',
+  fontWeight: 'bold',
+  margin: '5px',
+  padding: '0',
+}));
+
+const NameText = styled.div(() => ({
+  display: 'flex',
+  fontWeight: 'bold',
+}));
+
+const EmailText = styled.div(() => ({
+  display: 'flex',
+}));
+// Task5
+
 const Post = ({ post }) => {
   const carouselRef = useRef(null);
 
@@ -146,6 +184,25 @@ const Post = ({ post }) => {
 
   return (
     <PostContainer>
+      
+      {/* Task5 */}
+      <HeadingContainer>
+        <IconContainer>
+          {post.user.name
+            .split(' ')
+            .map((part, index, arr) =>
+              index === 0 || index === arr.length - 1 ? part[0] : '',
+            )
+            .join('')
+            .toUpperCase()}
+        </IconContainer>
+        <DataContainer>
+          <NameText>{post.user.name}</NameText>
+          <EmailText>{post.user.email}</EmailText>
+        </DataContainer>
+      </HeadingContainer>
+      {/* Task5 */}
+
       <CarouselContainer>
         {/* <Carousel ref={carouselRef}>
           {post.images.map((image, index) => (
