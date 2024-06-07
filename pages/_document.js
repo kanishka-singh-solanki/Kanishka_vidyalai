@@ -1,6 +1,6 @@
 import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
-
+// A
 class MyDocument extends Document {
   render() {
     return (
