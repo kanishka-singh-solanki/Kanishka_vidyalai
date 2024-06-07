@@ -204,29 +204,7 @@ const Post = ({ post }) => {
       {/* Task5 */}
 
       <CarouselContainer>
-        {/* <Carousel ref={carouselRef}>
-          {post.images.map((image, index) => (
-            <CarouselItem key={index}>
-              <Image src={image.url} alt={post.title} />
-            </CarouselItem>
-          ))}
-        </Carousel> */}
-
-        {/* Task2 */}
-        {/* {loadedImages.length > 0 ? (
-          <Carousel ref={carouselRef}>
-            {loadedImages.map((image, index) => (
-              <CarouselItem key={index}>
-                <Image src={image.url} alt={post.title} />
-              </CarouselItem>
-            ))}
-          </Carousel>
-        ) : (
-          <p>Loading images...</p>
-        )} */}
-        {/* Task2 */}
-
-        {/* Task4 */}
+        
         <Carousel ref={carouselRef}>
           {loadedImages.map((image, index) => (
             <CarouselItem key={index}>
