@@ -47,6 +47,7 @@ const Content = styled.div(() => ({
 const Button = styled.button(() => ({
   position: 'absolute',
   bottom: 0,
+  top: '40%',   // Task1
   backgroundColor: 'rgba(255, 255, 255, 0.5)',
   border: 'none',
   color: '#000',
@@ -69,7 +70,7 @@ const Post = ({ post }) => {
   const handleNextClick = () => {
     if (carouselRef.current) {
       carouselRef.current.scrollBy({
-        left: 50,
+        left: 300, // Task 1
         behavior: 'smooth',
       });
     }
@@ -78,7 +79,7 @@ const Post = ({ post }) => {
   const handlePrevClick = () => {
     if (carouselRef.current) {
       carouselRef.current.scrollBy({
-        left: -70,
+        left: -300, // Task 1
         behavior: 'smooth',
       });
     }
