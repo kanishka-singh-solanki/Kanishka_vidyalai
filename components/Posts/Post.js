@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react'; // Task 2
 import styled from '@emotion/styled';
 
 const PostContainer = styled.div(() => ({
@@ -85,16 +85,46 @@ const Post = ({ post }) => {
     }
   };
 
+  // Task2
+  const [loadedImages, setLoadedImages] = useState(post.images.slice(0, 3));
+
+  useEffect(() => {
+    const loadMoreImages = async () => {
+      const remainingImages = post.images.slice(loadedImages.length);
+      if (remainingImages.length > 0) {
+        const nextImage = remainingImages[0];
+        setLoadedImages(prevImages => [...prevImages, nextImage]);
+      }
+    };
+      loadMoreImages();
+  }, [loadedImages, post.images, handleNextClick]);
+  // Task2
+
   return (
     <PostContainer>
       <CarouselContainer>
-        <Carousel ref={carouselRef}>
+        {/* <Carousel ref={carouselRef}>
           {post.images.map((image, index) => (
             <CarouselItem key={index}>
               <Image src={image.url} alt={post.title} />
             </CarouselItem>
           ))}
-        </Carousel>
+        </Carousel> */}
+
+        {/* Task2 */}
+        {loadedImages.length > 0 ? (
+          <Carousel ref={carouselRef}>
+            {loadedImages.map((image, index) => (
+              <CarouselItem key={index}>
+                <Image src={image.url} alt={post.title} />
+              </CarouselItem>
+            ))}
+          </Carousel>
+        ) : (
+          <p>Loading images...</p>
+        )}
+        {/* Task2 */}
+        
         <PrevButton onClick={handlePrevClick}>&#10094;</PrevButton>
         <NextButton onClick={handleNextClick}>&#10095;</NextButton>
       </CarouselContainer>
