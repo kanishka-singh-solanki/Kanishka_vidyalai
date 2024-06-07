@@ -45,11 +45,7 @@ export default function Posts() {
   const { isSmallerDevice } = useContext(WindowWidthContext); // Task 7
 
   useEffect(() => {
-    // const fetchPost = async () => {
-    //   const { data: posts } = await axios.get('/api/v1/posts', {
-    //     params: { start: 0, limit: isSmallerDevice ? 5 : 10 },
-    //   });
-    //   setPosts(posts);
+
 
     // Task4
     const fetchPosts = async () => {
@@ -92,9 +88,6 @@ export default function Posts() {
     setPage(page + 1);    //Task4
     setIsLoading(true);
 
-    // setTimeout(() => {
-    //   setIsLoading(false);
-    // }, 3000);
   };
 
   return (
@@ -105,11 +98,6 @@ export default function Posts() {
         ))}
       </PostListContainer>
 
-      {/* <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <LoadMoreButton onClick={handleClick} disabled={isLoading}>
-          {!isLoading ? 'Load More' : 'Loading...'}
-        </LoadMoreButton>
-      </div> */}
 
       {/* Task4 */}
       {!hideLoadMoreButton && <div style={{ display: 'flex', justifyContent: 'center' }}>

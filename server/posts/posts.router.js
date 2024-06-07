@@ -17,22 +17,6 @@ router.get('/', async (req, res) => {
   const posts = await fetchPosts({ start, limit });
   // Task4
 
-  // const postsWithImages = posts.reduce((acc, post) => {
-  //   // TODO use this route to fetch photos for each post
-  //   // axios.get(`https://jsonplaceholder.typicode.com/albums/${post.id}/photos`);
-  //   return [
-  //     ...acc,
-  //     {
-  //       ...post,
-  //       images: [
-  //         { url: 'https://picsum.photos/200/300' },
-  //         { url: 'https://picsum.photos/200/300' },
-  //         { url: 'https://picsum.photos/200/300' },
-  //       ],
-  //     },
-  //   ];
-  // }, []);
-
   // Task 2
   
   const postsWithImages = await Promise.all(

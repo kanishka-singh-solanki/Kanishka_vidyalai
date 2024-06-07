@@ -151,20 +151,6 @@ const Post = ({ post }) => {
     }
   };
 
-  // // Task2
-  // const [loadedImages, setLoadedImages] = useState(post.images.slice(0, 3));
-
-  // useEffect(() => {
-  //   const loadMoreImages = async () => {
-  //     const remainingImages = post.images.slice(loadedImages.length);
-  //     if (remainingImages.length > 0) {
-  //       const nextImage = remainingImages[0];
-  //       setLoadedImages(prevImages => [...prevImages, nextImage]);
-  //     }
-  //   };
-  //     loadMoreImages();
-  // }, [loadedImages, post.images, handleNextClick]);
-  // // Task2
 
   // Task4
   const loadMoreImages = () => {
@@ -204,27 +190,7 @@ const Post = ({ post }) => {
       {/* Task5 */}
 
       <CarouselContainer>
-        {/* <Carousel ref={carouselRef}>
-          {post.images.map((image, index) => (
-            <CarouselItem key={index}>
-              <Image src={image.url} alt={post.title} />
-            </CarouselItem>
-          ))}
-        </Carousel> */}
-
-        {/* Task2 */}
-        {/* {loadedImages.length > 0 ? (
-          <Carousel ref={carouselRef}>
-            {loadedImages.map((image, index) => (
-              <CarouselItem key={index}>
-                <Image src={image.url} alt={post.title} />
-              </CarouselItem>
-            ))}
-          </Carousel>
-        ) : (
-          <p>Loading images...</p>
-        )} */}
-        {/* Task2 */}
+        
 
         {/* Task4 */}
         <Carousel ref={carouselRef}>
