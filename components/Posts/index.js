@@ -1,9 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useContext } from 'react';   // Task7
 import styled from '@emotion/styled';
 import Post from './Post';
 import Container from '../common/Container';
-import useWindowWidth from '../hooks/useWindowWidth';
+// import useWindowWidth from '../hooks/useWindowWidth';
+import useWindowWidth, { WindowWidthContext } from '../hooks/WindowWidthContext';  // Task 7
 
 const PostListContainer = styled.div(() => ({
   display: 'flex',
@@ -34,11 +36,13 @@ const LoadMoreButton = styled.button(() => ({
 
 export default function Posts() {
   const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);   // Task 7
   const [ hideLoadMoreButton, setHideLoadMoreButton ] = useState(false);  //Task4
   const [page, setPage] = useState(0); // Task4
 
-  const { isSmallerDevice } = useWindowWidth();
+  // const { isSmallerDevice } = useWindowWidth();
+  const { isSmallerDevice } = useContext(WindowWidthContext); // Task 7
 
   useEffect(() => {
     // const fetchPost = async () => {
@@ -57,11 +61,24 @@ export default function Posts() {
           },
         });
         
+        // Task 7
+        setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+        setIsLoading(false);
+    
+        // Handle no new posts fetched on "Load More"
+        if (
+          page * (isSmallerDevice ? 5 : 10) === posts.length + (isSmallerDevice ? 5 : 10) &&
+          !hideLoadMoreButton
+        ) {
+          setPage(page - 1);
+        }
+        // Task 7
+
         // Handle no more posts to load
         if (newPosts.length === 0) {
           setHideLoadMoreButton(true);
         }
-    
+        // setPosts([...posts, ...newPosts]);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
@@ -75,9 +92,9 @@ export default function Posts() {
     setPage(page + 1);    //Task4
     setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+    // setTimeout(() => {
+    //   setIsLoading(false);
+    // }, 3000);
   };
 
   return (

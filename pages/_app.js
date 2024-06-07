@@ -1,9 +1,15 @@
 import React from 'react';
 
 const App = ({ Component, pageProps }) => (
-  <React.Fragment>
+
+  // Task7
+  // <React.Fragment>
+    <WindowWidthProvider>
     <Component {...pageProps} />
-  </React.Fragment>
+    </WindowWidthProvider>
+  // </React.Fragment> 
+  // Task7
+
 );
 
 export default App;

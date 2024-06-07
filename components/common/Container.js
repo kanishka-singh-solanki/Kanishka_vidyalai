@@ -1,8 +1,15 @@
-import React from 'react';
-import useWindowWidth from '../hooks/useWindowWidth';
+// import React from 'react';
+// import useWindowWidth from '../hooks/useWindowWidth';
+import React, { useContext } from 'react';                          // Task7
+import { WindowWidthContext } from '../hooks/WindowWidthContext';   // Task7
 
 export default function Container({ children }) {
-  const { isSmallerDevice } = useWindowWidth();
+  
+  // Task7
+  // const { isSmallerDevice } = useWindowWidth();
+  const { isSmallerDevice } = useContext(WindowWidthContext);
+  // Task7
+
   return (
     <div
       style={{
