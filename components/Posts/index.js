@@ -35,21 +35,44 @@ const LoadMoreButton = styled.button(() => ({
 export default function Posts() {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [ hideLoadMoreButton, setHideLoadMoreButton ] = useState(false);  //Task4
+  const [page, setPage] = useState(0); // Task4
 
   const { isSmallerDevice } = useWindowWidth();
 
   useEffect(() => {
-    const fetchPost = async () => {
-      const { data: posts } = await axios.get('/api/v1/posts', {
-        params: { start: 0, limit: isSmallerDevice ? 5 : 10 },
-      });
-      setPosts(posts);
-    };
+    // const fetchPost = async () => {
+    //   const { data: posts } = await axios.get('/api/v1/posts', {
+    //     params: { start: 0, limit: isSmallerDevice ? 5 : 10 },
+    //   });
+    //   setPosts(posts);
 
-    fetchPost();
-  }, [isSmallerDevice]);
+    // Task4
+    const fetchPosts = async () => {
+      try {
+        const { data: newPosts } = await axios.get('/api/v1/posts', {
+          params: {
+            start: page * (isSmallerDevice ? 5 : 10),
+            limit: isSmallerDevice ? 5 : 10,
+          },
+        });
+        
+        // Handle no more posts to load
+        if (newPosts.length === 0) {
+          setHideLoadMoreButton(true);
+        }
+    
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    };
+    
+    fetchPosts();
+  }, [page, isSmallerDevice]);
+    // Task4
 
   const handleClick = () => {
+    setPage(page + 1);    //Task4
     setIsLoading(true);
 
     setTimeout(() => {
@@ -65,11 +88,20 @@ export default function Posts() {
         ))}
       </PostListContainer>
 
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      {/* <div style={{ display: 'flex', justifyContent: 'center' }}>
         <LoadMoreButton onClick={handleClick} disabled={isLoading}>
           {!isLoading ? 'Load More' : 'Loading...'}
         </LoadMoreButton>
-      </div>
+      </div> */}
+
+      {/* Task4 */}
+      {!hideLoadMoreButton && <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <LoadMoreButton onClick={handleClick} disabled={isLoading}>
+          {!isLoading ? 'Load More' : 'Loading...'}
+        </LoadMoreButton>
+      </div>}
+        {/* Task4 */}
+        
     </Container>
   );
 }

@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react'; // Task 2
 import styled from '@emotion/styled';
+import Image from 'next/image'; // Task 4
+
 
 const PostContainer = styled.div(() => ({
   width: '300px',
@@ -30,7 +32,8 @@ const CarouselItem = styled.div(() => ({
   scrollSnapAlign: 'start',
 }));
 
-const Image = styled.img(() => ({
+// const Image = styled.img(() => ({
+const ImageStyled = styled(Image)(() => ({ // Task4
   width: '280px',
   height: 'auto',
   maxHeight: '300px',
@@ -67,6 +70,30 @@ const NextButton = styled(Button)`
 const Post = ({ post }) => {
   const carouselRef = useRef(null);
 
+    // Task4
+  
+    const initialLoadedImages = post.images.slice(0, 2);
+    const [loadedImages, setLoadedImages] = useState(initialLoadedImages);
+  
+    const initialLoadingStates = Array(initialLoadedImages.length).fill(true);
+    const [loadingStates, setLoadingStates] = useState(initialLoadingStates);
+  
+    const handleImageLoad = index => {
+      // Option 1: Update state directly (more concise)
+      setLoadingStates(prevStates => [
+        ...prevStates.slice(0, index),
+        false,
+        ...prevStates.slice(index + 1),
+      ]);
+  
+      // Option 2: Update specific element using spread syntax (cleaner)
+      setLoadingStates(prevStates => {
+        return [...prevStates].map((state, i) => (i === index ? false : state));
+      });
+    };
+  
+    // Task4
+
   const handleNextClick = () => {
     if (carouselRef.current) {
       carouselRef.current.scrollBy({
@@ -74,6 +101,7 @@ const Post = ({ post }) => {
         behavior: 'smooth',
       });
     }
+    loadMoreImages(); // Task4
   };
 
   const handlePrevClick = () => {
@@ -85,20 +113,36 @@ const Post = ({ post }) => {
     }
   };
 
-  // Task2
-  const [loadedImages, setLoadedImages] = useState(post.images.slice(0, 3));
+  // // Task2
+  // const [loadedImages, setLoadedImages] = useState(post.images.slice(0, 3));
 
-  useEffect(() => {
-    const loadMoreImages = async () => {
-      const remainingImages = post.images.slice(loadedImages.length);
-      if (remainingImages.length > 0) {
-        const nextImage = remainingImages[0];
-        setLoadedImages(prevImages => [...prevImages, nextImage]);
-      }
-    };
-      loadMoreImages();
-  }, [loadedImages, post.images, handleNextClick]);
-  // Task2
+  // useEffect(() => {
+  //   const loadMoreImages = async () => {
+  //     const remainingImages = post.images.slice(loadedImages.length);
+  //     if (remainingImages.length > 0) {
+  //       const nextImage = remainingImages[0];
+  //       setLoadedImages(prevImages => [...prevImages, nextImage]);
+  //     }
+  //   };
+  //     loadMoreImages();
+  // }, [loadedImages, post.images, handleNextClick]);
+  // // Task2
+
+  // Task4
+  const loadMoreImages = () => {
+    // Get the remaining images to load (more concise and efficient)
+    const remainingImages = post.images.slice(loadedImages.length);
+
+    if (remainingImages.length) {
+      // Get the next image to load
+      const nextImage = remainingImages[0];
+
+      // Update loaded images and loading states using spread syntax (cleaner)
+      setLoadedImages(prevImages => [...prevImages, nextImage]);
+      setLoadingStates(prevStates => [...prevStates, true]);
+    }
+  };
+  // Task4
 
   return (
     <PostContainer>
@@ -112,7 +156,7 @@ const Post = ({ post }) => {
         </Carousel> */}
 
         {/* Task2 */}
-        {loadedImages.length > 0 ? (
+        {/* {loadedImages.length > 0 ? (
           <Carousel ref={carouselRef}>
             {loadedImages.map((image, index) => (
               <CarouselItem key={index}>
@@ -122,8 +166,40 @@ const Post = ({ post }) => {
           </Carousel>
         ) : (
           <p>Loading images...</p>
-        )}
+        )} */}
         {/* Task2 */}
+
+        {/* Task4 */}
+        <Carousel ref={carouselRef}>
+          {loadedImages.map((image, index) => (
+            <CarouselItem key={index}>
+              {loadingStates[index] ? <p>Loading...</p> : null}{' '}
+              {/* Ternary for loading state */}
+              <ImageStyled
+                src={image.url}
+                alt={post.title}
+                width={300}
+                height={300}
+                onLoad={() => handleImageLoad(index)}
+                onError={e => {
+                  if (e.target.status === 504) {
+                    const updatedImages = post.images
+                      .slice(0, index)
+                      .concat(post.images.slice(index + 1)); // Concatenation for removed image
+                    setLoadedImages(
+                      updatedImages.filter((_, i) => i !== index),
+                    );
+                    setLoadingStates(updatedImages.map(() => false)); // Create loading states for all images
+
+                    loadMoreImages();
+                  }
+                }}
+              />
+            </CarouselItem>
+          ))}
+        </Carousel>
+
+        {/* Task4 */}
         
         <PrevButton onClick={handlePrevClick}>&#10094;</PrevButton>
         <NextButton onClick={handleNextClick}>&#10095;</NextButton>

@@ -8,7 +8,12 @@ const { default: axios } = require('axios');    // Task2
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const posts = await fetchPosts();
+  // const posts = await fetchPosts();
+
+  // Task4
+  const { start, limit } = req.query;
+  const posts = await fetchPosts({ start, limit });
+  // Task4
 
   // const postsWithImages = posts.reduce((acc, post) => {
   //   // TODO use this route to fetch photos for each post
